@@ -1,4 +1,5 @@
 import {
+  Color,
   List,
   showToast,
   ToastStyle,
@@ -114,7 +115,7 @@ function SlotListItem(props: { slot: QueueSlot; setSlots: any; slots: any }) {
       break;
 
     case "Downloading":
-      icon = { source: { light: "play-light.png", dark: "play-dark.png" } };
+      icon = { source: Icon.Circle, tintColor: Color.Green };
 
       actions = (
         <ActionPanel>
@@ -172,6 +173,22 @@ function SlotListItem(props: { slot: QueueSlot; setSlots: any; slots: any }) {
       icon = Icon.QuestionMark;
   }
 
+  let sizeleft: string;
+
+  if (slot.status == "Downloading") {
+    sizeleft = slot.sizeleft;
+  } else {
+    sizeleft = "";
+  }
+
+  let size: string;
+
+  if (slot.status == "Downloading") {
+    size = slot.size;
+  } else {
+    size = "";
+  }
+
   let timeleft: string;
 
   if (slot.status == "Downloading") {
@@ -180,12 +197,20 @@ function SlotListItem(props: { slot: QueueSlot; setSlots: any; slots: any }) {
     timeleft = "";
   }
 
+  let percentage: string;
+
+  if (slot.status == "Downloading") {
+    percentage = slot.percentage + "%";
+  } else {
+    percentage = "";
+  }
+
   return (
     <List.Item
       id={slot.nzo_id}
       key={slot.nzo_id}
       title={slot.filename}
-      subtitle={timeleft}
+      subtitle={timeleft + " ・ " + sizeleft + " / " + size + " ・ " + percentage}
       icon={icon}
       actions={actions}
     />
